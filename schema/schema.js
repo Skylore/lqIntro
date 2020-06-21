@@ -19,7 +19,13 @@ const UserType = new GraphQLObjectType({
         age: {type: GraphQLInt},
         login: {type: GraphQLString},
         creationDate: {type: GraphQLString},
-        id: {type: GraphQLID}
+        id: {type: GraphQLID},
+        groups: {
+            type: GraphQLList(GroupType),
+            resolve(parent, args) {
+                return Group.find({users: { $in: [parent.id] }})
+            }
+        }
     })
 })
 
